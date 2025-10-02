@@ -1,6 +1,13 @@
-import { Github, Linkedin, Mail, ArrowDown } from 'lucide-react';
+import { Github, Linkedin, Mail, Download } from 'lucide-react';
 
 export default function Hero() {
+  const handleDownloadResume = () => {
+    const link = document.createElement('a');
+    link.href = '/resume.pdf';
+    link.download = 'Min_Phyo_Thaw_Resume.pdf';
+    link.click();
+  };
+
   return (
     <section className="min-h-screen flex items-center justify-center relative px-6">
       <div className="max-w-4xl w-full text-center">
@@ -22,7 +29,7 @@ export default function Hero() {
 
           <div className="flex gap-6 justify-center mb-8">
             <a
-              href="https://github.com/MinPhyoZaw" target="_blank"
+              href="#"
               className="glass-button p-4 hover:scale-110 transition-transform duration-300"
               aria-label="GitHub"
             >
@@ -44,16 +51,23 @@ export default function Hero() {
             </a>
           </div>
 
-          <a
-            href="#about"
-            className="inline-block glass-button px-8 py-4 font-medium hover:scale-105 transition-transform duration-300"
-          >
-            Explore My Work
-          </a>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <a
+              href="#about"
+              className="inline-block glass-button px-8 py-4 font-medium hover:scale-105 transition-transform duration-300"
+            >
+              Explore My Work
+            </a>
+            <button
+              onClick={handleDownloadResume}
+              className="inline-flex items-center gap-2 glass-button px-8 py-4 font-medium hover:scale-105 transition-transform duration-300"
+            >
+              <Download size={20} />
+              Download Resume
+            </button>
+          </div>
         </div>
       </div>
-
-
     </section>
   );
 }
