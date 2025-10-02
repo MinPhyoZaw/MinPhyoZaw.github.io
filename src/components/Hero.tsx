@@ -2,12 +2,10 @@ import { Github, Linkedin, Mail, Download } from 'lucide-react';
 
 export default function Hero() {
   const handleDownloadResume = () => {
-     const link = document.createElement('a');
-    link.href = 'public/min_phyo_thaw_cv.pdf';  
+      const link = document.createElement('a');
+    link.href = '/min_thaw_resume.pdf';
     link.download = 'Min_Phyo_Thaw_Resume.pdf';
-    document.body.appendChild(link); 
     link.click();
-    document.body.removeChild(link); 
   };
 
   return (
