@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Lock, Mail, Loader2 } from 'lucide-react';
+import { Lock, Mail, Loader2, UserPlus } from 'lucide-react';
 import { createClient } from '@supabase/supabase-js';
 
 const supabase = createClient(
@@ -15,12 +15,15 @@ export default function AdminLogin({ onLoginSuccess }: AdminLoginProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isCreatingAccount, setIsCreatingAccount] = useState(false);
   const [error, setError] = useState('');
+  const [message, setMessage] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setError('');
+    setMessage('');
 
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
@@ -37,6 +40,36 @@ export default function AdminLogin({ onLoginSuccess }: AdminLoginProps) {
       setError(err instanceof Error ? err.message : 'Invalid credentials');
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleCreateAccount = async () => {
+    if (!email || !password) {
+      setError('Please enter email and password first');
+      return;
+    }
+
+    setIsCreatingAccount(true);
+    setError('');
+    setMessage('');
+
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+      });
+
+      if (error) throw error;
+
+      if (data.user) {
+        setMessage('Account created successfully! You can now sign in.');
+        setEmail('');
+        setPassword('');
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to create account');
+    } finally {
+      setIsCreatingAccount(false);
     }
   };
 
@@ -97,9 +130,15 @@ export default function AdminLogin({ onLoginSuccess }: AdminLoginProps) {
               </div>
             )}
 
+            {message && (
+              <div className="p-3 bg-green-500/20 border border-green-500/50 rounded-lg text-green-200 text-sm">
+                {message}
+              </div>
+            )}
+
             <button
               type="submit"
-              disabled={isLoading}
+              disabled={isLoading || isCreatingAccount}
               className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isLoading ? (
@@ -112,6 +151,29 @@ export default function AdminLogin({ onLoginSuccess }: AdminLoginProps) {
               )}
             </button>
           </form>
+
+          <div className="mt-6 pt-6 border-t border-white/10">
+            <p className="text-gray-400 text-sm text-center mb-3">
+              First time here? Create your admin account
+            </p>
+            <button
+              onClick={handleCreateAccount}
+              disabled={isLoading || isCreatingAccount}
+              className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-white/10 hover:bg-white/20 text-white font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isCreatingAccount ? (
+                <>
+                  <Loader2 size={20} className="animate-spin" />
+                  Creating account...
+                </>
+              ) : (
+                <>
+                  <UserPlus size={20} />
+                  Create Admin Account
+                </>
+              )}
+            </button>
+          </div>
         </div>
       </div>
     </div>
