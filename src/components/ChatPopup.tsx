@@ -22,6 +22,21 @@ export default function ChatPopup({ onClose }: ChatPopupProps) {
     try {
       const { error } = await supabase.from('chat_messages').insert([formData]);
       if (error) throw error;
+
+      const apiUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-email`;
+      const emailResponse = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!emailResponse.ok) {
+        console.error('Failed to send email notification');
+      }
+
       setSubmitted(true);
       setFormData({ name: '', email: '', message: '' });
       setTimeout(() => onClose(), 2000);
