@@ -3,26 +3,26 @@ import { ExternalLink, Github, Clock, CheckCircle2 } from 'lucide-react';
 export default function Projects() {
   const previousProjects = [
     {
-      title: 'E-Commerce Platform',
-      description: 'A full-stack e-commerce solution with payment integration, inventory management, and real-time analytics.',
-      technologies: ['React', 'Node.js', 'PostgreSQL', 'Stripe'],
+      title: 'QLUMA Car Service in Osaka',
+      description: 'Qluma Car Service is a clean and responsive web platform designed to showcase car maintenance and repair services. The website highlights available services, pricing, and company details, allowing customers to easily learn about Qluma’s offerings. It focuses on clarity, speed, and accessibility, providing a professional online presence for the car service business.',
+      technologies: ['Html', 'Tailwind CSS', 'Javascript'],
       status: 'completed',
-      link: '#',
+      link: 'https://qluma-osaka.com/',
       github: '#'
     },
     {
-      title: 'Task Management App',
-      description: 'Collaborative task management tool with real-time updates, team workspaces, and productivity insights.',
-      technologies: ['React', 'Firebase', 'Tailwind CSS'],
+      title: 'AAMIJ Burmese News Website',
+      description: 'AAMIJ News is a dynamic WordPress-based news portal developed to provide timely updates, articles, and breaking stories. The site features categorized news sections, featured posts, and an easy-to-manage CMS interface for editors. With a clean design and mobile responsiveness, it ensures readers can stay informed anytime, anywhere.',
+      technologies: ['Wordpress', 'Elementor', 'WP Form'],
       status: 'completed',
-      link: '#',
+      link: 'https://aamijburma.org/',
       github: '#'
     },
     {
       title: 'Portfolio CMS',
       description: 'Custom content management system for creative professionals with drag-and-drop interface and media library.',
       technologies: ['Next.js', 'Supabase', 'TypeScript'],
-      status: 'completed',
+      status: 'not available yet..',
       link: '#',
       github: '#'
     }

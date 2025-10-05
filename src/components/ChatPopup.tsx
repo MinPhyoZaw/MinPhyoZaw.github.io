@@ -1,11 +1,8 @@
+// ChatPopup.tsx
 import { useState } from 'react';
 import { X, Send, Loader2 } from 'lucide-react';
-import { createClient } from '@supabase/supabase-js';
-
-const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL,
-  import.meta.env.VITE_SUPABASE_ANON_KEY
-);
+import { messagesCollection, db } from '../firebase';
+import { addDoc, serverTimestamp } from 'firebase/firestore';
 
 interface ChatPopupProps {
   onClose: () => void;
@@ -19,26 +16,21 @@ export default function ChatPopup({ onClose }: ChatPopupProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    try {
-      const { error } = await supabase.from('chat_messages').insert([formData]);
-      if (error) throw error;
 
-      const apiUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-email`;
-      const emailResponse = await fetch(apiUrl, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
+    try {
+      // Store the message in Firestore
+      await addDoc(messagesCollection, {
+        ...formData,
+        created_at: serverTimestamp()
       });
 
-      if (!emailResponse.ok) {
-        console.error('Failed to send email notification');
-      }
+      // Optional: Add email notification logic here if you have a backend or function
+      // Example: await fetch('/api/send-email', { method: 'POST', body: JSON.stringify(formData) })
 
       setSubmitted(true);
       setFormData({ name: '', email: '', message: '' });
+
+      // Auto-close after 2 seconds
       setTimeout(() => onClose(), 2000);
     } catch (error) {
       console.error('Error sending message:', error);
@@ -63,7 +55,7 @@ export default function ChatPopup({ onClose }: ChatPopupProps) {
           </button>
         </div>
 
-        {/* Messages area */}
+        {/* Messages / Form Area */}
         <div className="flex-1 p-4 space-y-2 overflow-y-auto bg-gray-50">
           {submitted ? (
             <div className="flex flex-col items-center py-8">

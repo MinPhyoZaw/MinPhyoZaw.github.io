@@ -27,7 +27,7 @@ export default function Contact() {
               <Mail size={24} className="text-white" />
             </div>
             <h3 className="text-white font-semibold mb-2">Email</h3>
-            <p className="text-gray-400 text-sm">hello@example.com</p>
+            <p className="text-gray-400 text-sm">minphyothaw88@gmail.com</p>
           </div>
 
           <div className="glass-card p-6 text-center">
@@ -35,7 +35,7 @@ export default function Contact() {
               <MapPin size={24} className="text-white" />
             </div>
             <h3 className="text-white font-semibold mb-2">Location</h3>
-            <p className="text-gray-400 text-sm">San Francisco, CA</p>
+            <p className="text-gray-400 text-sm">Yangon , Myanmar</p>
           </div>
 
           <div className="glass-card p-6 text-center">
@@ -67,11 +67,11 @@ export default function Contact() {
               className="glass-button px-10 py-5 font-semibold text-lg hover:scale-105 transition-all duration-300 flex items-center justify-center gap-3 mx-auto group"
             >
               <MessageCircle size={24} className="group-hover:rotate-12 transition-transform" />
-              Start Live Chat
+              Send Message Here
             </button>
 
             <p className="text-gray-500 text-sm mt-6">
-              Available Monday - Friday, 9AM - 6PM EST
+              Available 24/7
             </p>
           </div>
         </div>
